@@ -27,13 +27,14 @@ module.exports = (robot) ->
       else
         msg.send 'Hmm...not sure'
 
-  robot.respond /(question verbose|wfa verbose|wolfram verbose) (.*)$/i, (msg) ->
+  robot.respond /(verbose question|verbose wfa|verbose wolfram) (.*)$/i, (msg) ->
     Wolfram.query msg.match[2], (e, result) ->
       if !result or result.length == 0
         msg.send 'Hmm...not sure'
       else
         for res in result
-          if res['subpods'][0]['value'].length > 0
-            msg.send res['subpods'][0]['value']
           if res['subpods'][0]['image'].length > 0
             msg.send res['subpods'][0]['image']
+          else if res['subpods'][0]['value'].length > 0
+            msg.send res['subpods'][0]['value']
+
